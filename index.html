@@ -32,26 +32,26 @@
       z-index: 6;
     }
 
-    /* Mouse-reactive glow (subtle) */
+    /* Glow (fixed position; NO mouse-follow halo) */
     .glow{
       position: fixed; inset: 0;
-      background: radial-gradient(650px 320px at var(--mx) var(--my), rgba(34,197,94,.18), transparent 65%);
+      background: radial-gradient(650px 320px at var(--mx) var(--my), rgba(34,197,94,.14), transparent 65%);
       pointer-events:none;
       filter: blur(12px);
-      opacity: .85;
+      opacity: .80;
       z-index: 1;
     }
-    @keyframes pulseGlow { 0%,100% { opacity: .70; } 50% { opacity: .95; } }
+    @keyframes pulseGlow { 0%,100% { opacity: .68; } 50% { opacity: .88; } }
     .glow { animation: pulseGlow 7s ease-in-out infinite; }
 
-    /* Matrix rain layer (ASCII only to avoid translation prompt) */
+    /* Matrix rain layer (ASCII only) */
     .rain{
       position: fixed;
       inset: 0;
       pointer-events: none;
       overflow: hidden;
-      opacity: .26;              /* slightly more visible */
-      z-index: 2;                /* above glow, below content */
+      opacity: .26;
+      z-index: 2;
     }
     .rain span{
       position: absolute;
@@ -77,7 +77,7 @@
       place-items: center;
       padding: 24px;
       position: relative;
-      z-index: 4; /* above glow + rain */
+      z-index: 4;
     }
 
     .card{
@@ -129,29 +129,32 @@
       background: rgba(0,0,0,.45);
     }
 
-    /* Cursor: remove “glow” vibe (no neon block) */
+    /* Main cursor: true caret, zero glow */
     .cursor{
       display:inline-block;
       width: 0;
       height: 1em;
       margin-left: 6px;
-      border-left: 2px solid rgba(182,255,218,.8);
+      border-left: 2px solid rgba(182,255,218,.80);
       box-shadow: none;
       background: none;
       animation: blink 1.1s steps(1) infinite;
+      vertical-align: -2px;
     }
 
-    /* Boot caret (used only on final boot line) */
+    /* Boot caret: same style as cursor */
     .bootCaret{
       display:inline-block;
-      width: 2px;
+      width: 0;
       height: 1em;
       margin-left: 6px;
-      background: rgba(182,255,218,.75);
+      border-left: 2px solid rgba(182,255,218,.80);
+      box-shadow: none;
+      background: none;
       animation: blink 1.1s steps(1) infinite;
       vertical-align: -2px;
     }
-    
+
     @keyframes blink { 50% { opacity: 0; } }
 
     a{
@@ -223,10 +226,12 @@
       opacity: .9;
     }
 
+    /* Use PRE so we can append a caret element cleanly */
     .bootLines{
       font-size: 13px;
       line-height: 1.65;
       color: rgba(182,255,218,.9);
+      margin: 0;
       white-space: pre-wrap;
     }
 
@@ -236,9 +241,9 @@
       opacity: .65;
     }
 
-    /* Accessibility: respect reduced motion */
+    /* Accessibility */
     @media (prefers-reduced-motion: reduce) {
-      .glow, .rain span, .cursor { animation: none !important; }
+      .glow, .rain span, .cursor, .bootCaret { animation: none !important; }
       .boot { display: none !important; }
     }
   </style>
@@ -252,8 +257,8 @@
   <div class="boot" id="boot">
     <div class="bootBox" id="bootBox">
       <div class="bootTitle">dawgshaus :: init</div>
-      <div class="bootLines" id="bootLines"></div>
-      <div class="bootHint">click or press any key to skip</div>
+      <pre class="bootLines" id="bootLines"></pre>
+      <div class="bootHint">click or press any key to continue</div>
     </div>
   </div>
 
@@ -322,30 +327,14 @@
       window.__rainResize = setTimeout(buildRain, 250);
     });
 
-    // ===== Mouse-reactive glow =====
-    const root = document.documentElement;
-    let glowRAF = null;
-    let targetX = 0.5, targetY = 0.3;
-
-    window.addEventListener("mousemove", (e) => {
-      targetX = e.clientX / window.innerWidth;
-      targetY = e.clientY / window.innerHeight;
-
-      if (!glowRAF) {
-        glowRAF = requestAnimationFrame(() => {
-          root.style.setProperty("--mx", Math.round(targetX * 100) + "%");
-          root.style.setProperty("--my", Math.round(targetY * 100) + "%");
-          glowRAF = null;
-        });
-      }
-    }, { passive: true });
+    // IMPORTANT: We are NOT tracking mouse position anymore (removes halo around pointer)
+    // Keep glow fixed at the initial CSS vars (--mx/--my)
 
     // ===== Cinematic boot sequence (with decryption + glitch flicker) =====
     const boot = document.getElementById("boot");
     const bootLinesEl = document.getElementById("bootLines");
     const bootBox = document.getElementById("bootBox");
 
-    // small glitch “hit”
     function glitch() {
       bootBox.classList.add("glitch");
       setTimeout(() => bootBox.classList.remove("glitch"), 240);
@@ -365,7 +354,6 @@
       { label: "link github.remote -> ok", glitch: false },
       { label: "handshake tls -> pending", glitch: true },
 
-      // Decryption phase (cinematic)
       { label: "decrypting payload [stage 1/3] …", glitch: true, decrypt: 22 },
       { label: "decrypting payload [stage 2/3] …", glitch: true, decrypt: 28 },
       { label: "decrypting payload [stage 3/3] …", glitch: true, decrypt: 34 },
@@ -401,8 +389,7 @@
       return new Promise((resolve) => {
         let count = 0;
         const go = () => {
-          if (count === 0) appendLine(""); // new line for the burst
-          // replace last line with random “cipher”
+          if (count === 0) appendLine("");
           const lines = bootLinesEl.textContent.split("\n");
           lines[lines.length - 1] = randHex(chars);
           bootLinesEl.textContent = lines.join("\n");
@@ -420,20 +407,24 @@
       });
     }
 
+    function removeExistingBootCaret() {
+      const existing = bootLinesEl.querySelector(".bootCaret");
+      if (existing) existing.remove();
+    }
+
     async function runBoot() {
       bootLinesEl.textContent = "";
 
       for (const p of phases) {
-        // new line
         if (p.glitch) glitch();
 
-        // type the label
         if (p.label) {
           if (bootLinesEl.textContent) bootLinesEl.textContent += "\n";
           await typeLine(p.label, 12, 24);
-        
-          // Add blinking caret on final prompt
+
           if (p.caret) {
+            // IMPORTANT: don't touch textContent after this, or caret gets removed
+            removeExistingBootCaret();
             const caret = document.createElement("span");
             caret.className = "bootCaret";
             bootLinesEl.appendChild(caret);
@@ -442,14 +433,11 @@
           appendLine("");
         }
 
-        // decryption animation after label
         if (p.decrypt) {
           await decryptBurst(p.decrypt, 12);
-          // finalize decrypted line
           appendLine("decryption -> ok");
         }
 
-        // small pause between lines
         await new Promise(r => setTimeout(r, 90 + Math.random() * 120));
       }
     }
@@ -460,15 +448,12 @@
       setTimeout(() => boot.remove(), 900);
     }
 
-    function skipBoot() { finishBoot(); }
-    window.addEventListener("keydown", skipBoot, { once: true });
-    window.addEventListener("pointerdown", skipBoot, { once: true });
+    // Wait for key/click to dismiss (no auto-dismiss)
+    function continueBoot() { finishBoot(); }
+    window.addEventListener("keydown", continueBoot, { once: true });
+    window.addEventListener("pointerdown", continueBoot, { once: true });
 
-    runBoot().then(() => {
-      // Boot fully ran. Do NOT auto-continue.
-      // Wait for key/click to dismiss.
-      bootLinesEl.textContent += ""; // no-op, just explicit
-    });
+    runBoot();
   </script>
 </body>
 </html>
