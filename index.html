@@ -132,14 +132,26 @@
     /* Cursor: remove “glow” vibe (no neon block) */
     .cursor{
       display:inline-block;
-      width: 10px;
+      width: 2px;
       height: 1em;
       margin-left: 6px;
       transform: translateY(2px);
-      background: rgba(182,255,218,.65); /* softer */
-      box-shadow: none;                  /* no glow */
+      background: rgba(182,255,218,.75);
+      box-shadow: none;
       animation: blink 1.1s steps(1) infinite;
     }
+
+    /* Boot caret (used only on final boot line) */
+    .bootCaret{
+      display:inline-block;
+      width: 2px;
+      height: 1em;
+      margin-left: 6px;
+      background: rgba(182,255,218,.75);
+      animation: blink 1.1s steps(1) infinite;
+      vertical-align: -2px;
+    }
+    
     @keyframes blink { 50% { opacity: 0; } }
 
     a{
@@ -362,7 +374,7 @@
       { label: "encryption layer -> active", glitch: false },
       { label: "status -> ONLINE", glitch: true },
       { label: "", glitch: false },
-      { label: "press any key to continue …", glitch: false }
+      { label: "press any key to continue …", glitch: false, caret: true }
     ];
 
     function appendLine(text) {
@@ -419,6 +431,13 @@
         if (p.label) {
           if (bootLinesEl.textContent) bootLinesEl.textContent += "\n";
           await typeLine(p.label, 12, 24);
+        
+          // Add blinking caret on final prompt
+          if (p.caret) {
+            const caret = document.createElement("span");
+            caret.className = "bootCaret";
+            bootLinesEl.appendChild(caret);
+          }
         } else {
           appendLine("");
         }
@@ -445,7 +464,11 @@
     window.addEventListener("keydown", skipBoot, { once: true });
     window.addEventListener("pointerdown", skipBoot, { once: true });
 
-    runBoot().then(() => setTimeout(finishBoot, 450));
+    rrunBoot().then(() => {
+      // Boot fully ran. Do NOT auto-continue.
+      // Wait for key/click to dismiss.
+      bootLinesEl.textContent += ""; // no-op, just explicit
+    });
   </script>
 </body>
 </html>
