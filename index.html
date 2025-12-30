@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DawgsHaus</title>
+  <meta name="description" content="DawgsHaus — web apps, mobile apps, and AI agents." />
+  <style>
+    :root { color-scheme: dark; }
+    html, body { height: 100%; margin: 0; }
+    body{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      background: radial-gradient(1000px 600px at 50% 35%, rgba(16,185,129,.10), rgba(0,0,0,0)) , #020408;
+      color: #b6ffda;
+      overflow: hidden;
+    }
+    .scanlines::before{
+      content:"";
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(
+        to bottom,
+        rgba(0,0,0,0) 0px,
+        rgba(0,0,0,0) 2px,
+        rgba(0,0,0,.22) 3px
+      );
+      pointer-events:none;
+      mix-blend-mode: overlay;
+      opacity: .35;
+    }
+    .glow{
+      position: fixed; inset: 0;
+      background: radial-gradient(600px 300px at 50% 30%, rgba(34,197,94,.18), transparent 65%);
+      pointer-events:none;
+      filter: blur(8px);
+      opacity: .9;
+    }
+    .wrap{
+      height: 100%;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .card{
+      width: min(820px, 92vw);
+      border: 1px solid rgba(34,197,94,.25);
+      background: rgba(0,0,0,.55);
+      box-shadow: 0 0 36px rgba(34,197,94,.12);
+      border-radius: 14px;
+      padding: 26px 26px 22px;
+    }
+    .top{
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      border-bottom: 1px dashed rgba(34,197,94,.25);
+      padding-bottom: 14px; margin-bottom: 16px;
+    }
+    .badge{
+      font-size: 12px;
+      letter-spacing: .12em;
+      color: rgba(182,255,218,.85);
+      border: 1px solid rgba(34,197,94,.35);
+      padding: 6px 10px;
+      border-radius: 999px;
+      text-transform: uppercase;
+    }
+    h1{
+      margin: 0;
+      font-size: clamp(26px, 4.4vw, 44px);
+      letter-spacing: .04em;
+      text-shadow: 0 0 18px rgba(34,197,94,.22);
+    }
+    .prompt{
+      margin: 14px 0 0;
+      font-size: 14px;
+      color: rgba(182,255,218,.9);
+      line-height: 1.6;
+    }
+    .cmd{
+      margin-top: 14px;
+      padding: 14px 14px;
+      border-radius: 10px;
+      border: 1px solid rgba(34,197,94,.20);
+      background: rgba(0,0,0,.45);
+    }
+    .cursor{
+      display:inline-block;
+      width: 10px;
+      background: rgba(34,197,94,.9);
+      margin-left: 6px;
+      animation: blink 1s steps(1) infinite;
+      height: 1em;
+      transform: translateY(2px);
+    }
+    @keyframes blink { 50% { opacity: 0; } }
+    a{
+      color: #52ffb8;
+      text-decoration: none;
+      border-bottom: 1px dashed rgba(82,255,184,.45);
+    }
+    a:hover{ border-bottom-style: solid; }
+    .links{
+      display:flex; gap:16px; flex-wrap: wrap;
+      margin-top: 14px;
+      font-size: 14px;
+      opacity: .95;
+    }
+    .footer{
+      margin-top: 18px;
+      font-size: 12px;
+      opacity: .7;
+    }
+  </style>
+</head>
+<body class="scanlines">
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="card">
+      <div class="top">
+        <div>
+          <h1>DawgsHaus</h1>
+          <div class="prompt">TechDawgs’ workshop for building web apps, mobile apps, and AI agents.</div>
+        </div>
+        <div class="badge">SYSTEM: ONLINE</div>
+      </div>
+
+      <div class="cmd">
+        <div>$ whoami</div>
+        <div>techdawgs</div>
+        <div style="margin-top:10px;">$ status</div>
+        <div>shipping code • deploying demos • training agents<span class="cursor"></span></div>
+      </div>
+
+      <div class="links">
+        <a href="https://github.com/techdawgs" target="_blank" rel="noreferrer">GitHub</a>
+        <!-- Add these later -->
+        <!-- <a href="/projects">Projects</a> -->
+        <!-- <a href="/labs">Labs</a> -->
+      </div>
+
+      <div class="footer">© <span id="y"></span> DawgsHaus</div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
