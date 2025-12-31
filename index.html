@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>DawgsHaus</title>
   <meta name="description" content="DawgsHaus — web apps, mobile apps, and AI agents." />
+
+  <!-- Shared nav -->
+  <link rel="stylesheet" href="/assets/site-nav.css">
+  <script src="/assets/site-nav.js" defer></script>
+
   <style>
     :root { color-scheme: dark; --mx: 50%; --my: 30%; }
 
@@ -247,7 +252,7 @@
     }
   </style>
 
-  <!-- Load JS from separate file -->
+  <!-- Boot logic -->
   <script src="boot.js" defer></script>
 </head>
 
@@ -255,10 +260,13 @@
   <div class="glow"></div>
   <div class="rain" id="rain"></div>
 
+  <!-- Shared nav mounts here -->
+  <div id="site-nav"></div>
+
   <!-- Boot intro -->
   <div class="boot" id="boot">
     <div class="bootBox" id="bootBox">
-      <div class="bootTitle">dawgshaus :: init</div>
+      <div class="bootTitle">DawgsHaus :: init</div>
       <pre class="bootLines" id="bootLines"></pre>
       <div class="bootHint">click or press any key to continue</div>
     </div>
@@ -283,6 +291,9 @@
       </div>
 
       <div class="links">
+        <a href="/projects/">Projects</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
         <a href="https://github.com/techdawgs" target="_blank" rel="noreferrer">GitHub</a>
       </div>
 
