@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>DawgsHaus — Contact</title>
   <meta name="description" content="Contact DawgsHaus." />
+
+  <!-- Shared nav -->
+  <link rel="stylesheet" href="/assets/site-nav.css">
+  <script src="/assets/site-nav.js" defer></script>
+
   <style>
     :root{
       --bg:#0b0f14;
@@ -42,9 +47,6 @@
       gap:16px; flex-wrap:wrap;
     }
     .brand h1{ margin:0; font-size:30px; letter-spacing:0.3px; }
-    .nav{ display:flex; gap:14px; font-size:14px; color:var(--muted); }
-    .nav a{ color:var(--muted); }
-    .nav a:hover{ color:var(--text); text-decoration:none; }
     .sub{
       margin-top:10px;
       color:var(--muted);
@@ -68,7 +70,6 @@
     }
     .note{ color:var(--muted); margin:0 0 12px; }
 
-    /* Static form (no backend). You can later wire this to Formspree/Netlify/etc. */
     form{ display:grid; gap:12px; max-width:640px; }
     label{ font-size:13px; color:var(--muted); }
     input, textarea{
@@ -102,16 +103,12 @@
   </style>
 </head>
 <body>
+  <div id="site-nav"></div>
+
   <header>
     <div class="wrap">
       <div class="brand">
         <h1>DawgsHaus — Contact</h1>
-        <nav class="nav" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/projects/">Projects</a>
-          <a href="/about/">About</a>
-          <a href="/contact/">Contact</a>
-        </nav>
       </div>
       <p class="sub">
         Placeholder contact page. Later, you can connect this to a form backend or replace it with direct links.
