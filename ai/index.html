@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DawgsHaus — Agent Alpha</title>
+  <meta name="description" content="Agent Alpha — DawgsHaus AI console demo." />
+
+  <link rel="stylesheet" href="./agent.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="topbar">
+      <div class="brand">
+        <span class="dot" aria-hidden="true"></span>
+        <div class="titles">
+          <div class="site">DawgsHaus</div>
+          <div class="sub">Agent Alpha Console</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="btnClear" class="btn" type="button" title="Clear screen">Clear</button>
+        <button id="btnReset" class="btn" type="button" title="Reset session memory">Reset Session</button>
+      </div>
+    </header>
+
+    <main class="terminal" role="application" aria-label="Agent Alpha Terminal">
+      <div id="screen" class="screen" aria-live="polite" aria-busy="false"></div>
+
+      <form id="promptForm" class="prompt" autocomplete="off">
+        <label class="prompt-label" for="promptInput">Command</label>
+        <div class="prompt-row">
+          <span class="prompt-symbol" aria-hidden="true">&gt;</span>
+          <textarea
+            id="promptInput"
+            class="prompt-input"
+            rows="1"
+            placeholder="Type a message… (try: /help)"
+            aria-label="Type a message"
+          ></textarea>
+          <button id="btnSend" class="btn primary" type="submit">Run</button>
+        </div>
+        <div class="hint">
+          <span>Enter = send</span>
+          <span class="sep">•</span>
+          <span>Shift+Enter = new line</span>
+        </div>
+      </form>
+    </main>
+
+    <footer class="footer">
+      <span class="muted">Public demo • Session-only memory • Endpoint: Cloudflare Worker (coming next)</span>
+    </footer>
+  </div>
+
+  <script src="./agent.js"></script>
+</body>
+</html>
