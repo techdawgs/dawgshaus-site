@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DawgsHaus — Projects</title>
+  <meta name="description" content="DawgsHaus projects: web apps, mobile apps, AI agents, and experiments." />
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #101826;
+      --panel2: #0f172a;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 10px 25px rgba(0,0,0,0.35);
+      --radius: 16px;
+      --max: 1100px;
+      --link: #7dd3fc;
+
+      /* status */
+      --live-bg: rgba(34,197,94,0.12);
+      --live-br: rgba(34,197,94,0.25);
+
+      --dev-bg: rgba(245,158,11,0.14);
+      --dev-br: rgba(245,158,11,0.26);
+
+      --concept-bg: rgba(167,139,250,0.12);
+      --concept-br: rgba(167,139,250,0.25);
+
+      /* type (subtle) */
+      --type-bg: rgba(255,255,255,0.03);
+      --type-br: rgba(255,255,255,0.08);
+
+      /* private */
+      --priv-bg: rgba(248,113,113,0.10);
+      --priv-br: rgba(248,113,113,0.22);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(56,189,248,0.12), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(167,139,250,0.10), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a { color: var(--link); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    header {
+      padding: 48px 20px 18px;
+      border-bottom: 1px solid var(--border);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
+    }
+
+    .wrap { max-width: var(--max); margin: 0 auto; }
+
+    .brand {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 30px;
+      letter-spacing: 0.3px;
+    }
+    .brand .nav {
+      display: flex;
+      gap: 14px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+    .brand .nav a { color: var(--muted); }
+    .brand .nav a:hover { color: var(--text); text-decoration: none; }
+
+    .sub {
+      margin-top: 10px;
+      color: var(--muted);
+      max-width: 70ch;
+      font-size: 15px;
+    }
+
+    main { padding: 26px 20px 60px; }
+
+    .section-title {
+      margin: 18px 0 12px;
+      font-size: 14px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0 22px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 13px;
+      user-select: none;
+    }
+
+    .grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(12, 1fr);
+    }
+
+    .card {
+      grid-column: span 12;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    @media (min-width: 820px) {
+      .card { grid-column: span 6; }
+    }
+
+    .card-inner { padding: 18px 18px 16px; }
+
+    .card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 18px;
+      letter-spacing: 0.2px;
+    }
+
+    .desc {
+      margin: 10px 0 12px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0 12px;
+    }
+
+    .badge {
+      font-size: 12px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--type-br);
+      background: var(--type-bg);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    /* status variants */
+    .badge.status { color: var(--text); }
+    .badge.live { background: var(--live-bg); border-color: var(--live-br); }
+    .badge.dev { background: var(--dev-bg); border-color: var(--dev-br); }
+    .badge.concept { background: var(--concept-bg); border-color: var(--concept-br); }
+
+    /* private */
+    .badge.private { color: var(--text); background: var(--priv-bg); border-color: var(--priv-br); }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 8px;
+      font-size: 13px;
+    }
+
+    .linkbtn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+    }
+    .linkbtn:hover { text-decoration: none; border-color: rgba(255,255,255,0.20); }
+
+    .callout {
+      margin-top: 28px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+    }
+    .callout strong { color: var(--text); }
+
+    .foot {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1>DawgsHaus — Projects</h1>
+        <nav class="nav" aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/projects/">Projects</a>
+          <a href="/about/">About</a>
+        </nav>
+      </div>
+
+      <p class="sub">
+        A living list of DawgsHaus builds: web apps, mobile prototypes, AI agent experiments, and team projects.
+        Some work is private until it’s ready to ship.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="section-title">Browse</div>
+      <div class="filters" aria-label="Project tags (static)">
+        <span class="pill">Web</span>
+        <span class="pill">Mobile</span>
+        <span class="pill">AI</span>
+        <span class="pill">Labs</span>
+        <span class="pill">Team</span>
+        <span class="pill">Live</span>
+        <span class="pill">In Development</span>
+        <span class="pill">Concept</span>
+        <span class="pill">Private</span>
+      </div>
+
+      <div class="section-title">Projects</div>
+      <div class="grid">
+
+        <!-- CrookZ (team project, private listing; no repo move required) -->
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div>
+                <h3>CrookZ</h3>
+                <div class="badges">
+                  <span class="badge status dev">In Development</span>
+                  <span class="badge">Web</span>
+                  <span class="badge">Team</span>
+                  <span class="badge private">Private Repo</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">
+              Team-built web app represented under DawgsHaus while staying in its existing GitHub org structure.
+              Listed here without forcing repo moves or deployments.
+            </p>
+            <div class="links">
+              <!-- Keep empty while private; or point to a contact/details page later -->
+              <!-- <a class="linkbtn" href="/projects/crookz/">Details</a> -->
+            </div>
+          </div>
+        </article>
+
+        <!-- DawgsHaus Landing -->
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div>
+                <h3>DawgsHaus.com Landing</h3>
+                <div class="badges">
+                  <span class="badge status live">Live</span>
+                  <span class="badge">Web</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">
+              The DawgsHaus umbrella site and navigation hub—lightweight, fast, and designed to scale with future projects.
+            </p>
+            <div class="links">
+              <a class="linkbtn" href="/">View</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- AI Agent Sandbox -->
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div>
+                <h3>AI Agent Sandbox</h3>
+                <div class="badges">
+                  <span class="badge status concept">Concept</span>
+                  <span class="badge">AI</span>
+                  <span class="badge">Labs</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">
+              A playground for building and testing AI agent patterns (tools, memory, workflows, and simple deployments).
+            </p>
+            <div class="links">
+              <!-- Add links when it exists -->
+            </div>
+          </div>
+        </article>
+
+        <!-- Mobile Prototype -->
+        <article class="card">
+          <div class="card-inner">
+            <div class="card-head">
+              <div>
+                <h3>Mobile Prototype</h3>
+                <div class="badges">
+                  <span class="badge status dev">In Development</span>
+                  <span class="badge">Mobile</span>
+                  <span class="badge">Labs</span>
+                </div>
+              </div>
+            </div>
+            <p class="desc">
+              Placeholder for upcoming mobile builds. This card becomes real when the first app is ready for demo or store.
+            </p>
+            <div class="links"></div>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="callout">
+        <strong>Note:</strong> Some projects stay private until they’re stable enough to demo publicly.
+        When something goes live, it can get a subdomain (example: <em>crookz.dawgshaus.com</em>)—but that’s optional.
+      </div>
+
+      <div class="foot">
+        <div>© <span id="year"></span> DawgsHaus</div>
+        <div>Static page • GitHub Pages friendly</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // purely for the footer year; safe on GitHub Pages
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
