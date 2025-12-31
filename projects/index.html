@@ -6,6 +6,10 @@
   <title>DawgsHaus — Projects</title>
   <meta name="description" content="DawgsHaus projects: web apps, mobile apps, AI agents, and experiments." />
 
+  <!-- Shared nav -->
+  <link rel="stylesheet" href="/assets/site-nav.css">
+  <script src="/assets/site-nav.js" defer></script>
+
   <style>
     :root {
       --bg: #0b0f14;
@@ -74,14 +78,6 @@
       font-size: 30px;
       letter-spacing: 0.3px;
     }
-    .brand .nav {
-      display: flex;
-      gap: 14px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-    .brand .nav a { color: var(--muted); }
-    .brand .nav a:hover { color: var(--text); text-decoration: none; }
 
     .sub {
       margin-top: 10px;
@@ -229,15 +225,13 @@
 </head>
 
 <body>
+  <!-- Shared nav mounts here -->
+  <div id="site-nav"></div>
+
   <header>
     <div class="wrap">
       <div class="brand">
         <h1>DawgsHaus — Projects</h1>
-        <nav class="nav" aria-label="Primary">
-          <a href="/">Home</a>
-          <a href="/projects/">Projects</a>
-          <a href="/about/">About</a>
-        </nav>
       </div>
 
       <p class="sub">
@@ -265,7 +259,6 @@
       <div class="section-title">Projects</div>
       <div class="grid">
 
-        <!-- CrookZ (team project, private listing; no repo move required) -->
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
@@ -283,14 +276,10 @@
               Team-built web app represented under DawgsHaus while staying in its existing GitHub org structure.
               Listed here without forcing repo moves or deployments.
             </p>
-            <div class="links">
-              <!-- Keep empty while private; or point to a contact/details page later -->
-              <!-- <a class="linkbtn" href="/projects/crookz/">Details</a> -->
-            </div>
+            <div class="links"></div>
           </div>
         </article>
 
-        <!-- DawgsHaus Landing -->
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
@@ -311,7 +300,6 @@
           </div>
         </article>
 
-        <!-- AI Agent Sandbox -->
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
@@ -327,13 +315,10 @@
             <p class="desc">
               A playground for building and testing AI agent patterns (tools, memory, workflows, and simple deployments).
             </p>
-            <div class="links">
-              <!-- Add links when it exists -->
-            </div>
+            <div class="links"></div>
           </div>
         </article>
 
-        <!-- Mobile Prototype -->
         <article class="card">
           <div class="card-inner">
             <div class="card-head">
@@ -368,7 +353,6 @@
   </main>
 
   <script>
-    // purely for the footer year; safe on GitHub Pages
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
