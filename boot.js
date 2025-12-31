@@ -39,15 +39,30 @@
     window.__rainResize = setTimeout(buildRain, 250);
   });
 
-  // IMPORTANT: No mouse tracking (prevents halo around pointer)
-  // Glow stays fixed using CSS vars in :root.
-
   // ===== Cinematic boot sequence (decryption + glitch) =====
   const boot = document.getElementById("boot");
   const bootLinesEl = document.getElementById("bootLines");
   const bootBox = document.getElementById("bootBox");
 
   if (!boot || !bootLinesEl || !bootBox) return;
+
+  // Boot should only run once per tab/session
+  const BOOT_KEY = "DawgsHausBootSeen";
+
+  function skipBootIfSeen() {
+    try {
+      if (sessionStorage.getItem(BOOT_KEY) === "1") {
+        boot.classList.add("hidden");
+        // Remove quickly so it doesn't intercept clicks
+        setTimeout(() => boot.remove(), 10);
+        return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
+  // If already seen, do not run boot typing again
+  if (skipBootIfSeen()) return;
 
   function glitch() {
     bootBox.classList.add("glitch");
@@ -62,7 +77,7 @@
   }
 
   const phases = [
-    { label: "booting dawgshaus kernel v0.2 …", glitch: false },
+    { label: "booting DawgsHaus kernel v0.2 …", glitch: false },
     { label: "mount /apps -> ready", glitch: false },
     { label: "mount /agents -> ready", glitch: false },
     { label: "link github.remote -> ok", glitch: false },
@@ -158,6 +173,9 @@
 
   function finishBoot() {
     if (!boot || boot.classList.contains("hidden")) return;
+
+    try { sessionStorage.setItem(BOOT_KEY, "1"); } catch (_) {}
+
     boot.classList.add("hidden");
     setTimeout(() => boot.remove(), 900);
   }
