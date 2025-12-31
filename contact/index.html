@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>DawgsHaus — Contact</title>
+  <meta name="description" content="Contact DawgsHaus." />
+  <style>
+    :root{
+      --bg:#0b0f14;
+      --panel:#101826;
+      --text:#e6edf3;
+      --muted:#9aa4b2;
+      --border:rgba(255,255,255,0.08);
+      --shadow:0 10px 25px rgba(0,0,0,0.35);
+      --radius:16px;
+      --max:1100px;
+      --link:#7dd3fc;
+      --field: rgba(0,0,0,0.25);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 800px at 20% 10%, rgba(56,189,248,0.12), transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, rgba(167,139,250,0.10), transparent 55%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{ color:var(--link); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+    header{
+      padding:48px 20px 18px;
+      border-bottom:1px solid var(--border);
+      background:linear-gradient(to bottom, rgba(255,255,255,0.03), transparent);
+    }
+    .wrap{ max-width:var(--max); margin:0 auto; }
+    .brand{
+      display:flex; align-items:baseline; justify-content:space-between;
+      gap:16px; flex-wrap:wrap;
+    }
+    .brand h1{ margin:0; font-size:30px; letter-spacing:0.3px; }
+    .nav{ display:flex; gap:14px; font-size:14px; color:var(--muted); }
+    .nav a{ color:var(--muted); }
+    .nav a:hover{ color:var(--text); text-decoration:none; }
+    .sub{
+      margin-top:10px;
+      color:var(--muted);
+      max-width:75ch;
+      font-size:15px;
+    }
+    main{ padding:26px 20px 60px; }
+    .panel{
+      background:linear-gradient(to bottom, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+    }
+    .section-title{
+      margin:0 0 10px;
+      font-size:14px;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .note{ color:var(--muted); margin:0 0 12px; }
+
+    /* Static form (no backend). You can later wire this to Formspree/Netlify/etc. */
+    form{ display:grid; gap:12px; max-width:640px; }
+    label{ font-size:13px; color:var(--muted); }
+    input, textarea{
+      width:100%;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:var(--field);
+      color:var(--text);
+      outline:none;
+    }
+    textarea{ min-height:140px; resize:vertical; }
+    .btn{
+      display:inline-flex;
+      width:max-content;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,0.04);
+      color:var(--text);
+      cursor:pointer;
+    }
+    .btn:hover{ background:rgba(255,255,255,0.07); }
+
+    .foot{
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+      display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <h1>DawgsHaus — Contact</h1>
+        <nav class="nav" aria-label="Primary">
+          <a href="/">Home</a>
+          <a href="/projects/">Projects</a>
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+        </nav>
+      </div>
+      <p class="sub">
+        Placeholder contact page. Later, you can connect this to a form backend or replace it with direct links.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="panel">
+        <div class="section-title">Contact</div>
+        <p class="note">
+          This form is currently a placeholder (static site). When you’re ready, we can wire it to a service like Formspree.
+          For now, you can use this page as a “Request access” target for private projects.
+        </p>
+
+        <form onsubmit="event.preventDefault(); alert('Placeholder form — not wired yet.');">
+          <div>
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" />
+          </div>
+
+          <div>
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" />
+          </div>
+
+          <div>
+            <label for="msg">Message</label>
+            <textarea id="msg" name="msg" placeholder="What are you reaching out about?"></textarea>
+          </div>
+
+          <button class="btn" type="submit">Send (placeholder)</button>
+        </form>
+      </div>
+
+      <div class="foot">
+        <div>© <span id="year"></span> DawgsHaus</div>
+        <div>Placeholder • Contact</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
