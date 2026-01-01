@@ -10,6 +10,19 @@
   // Session-only memory key
   const SESSION_KEY = "dawgshaus_agent_alpha_session_v1";
 
+  // Shared-token auth (stored per browser session)
+  const TOKEN_KEY = "dawgshaus_agent_alpha_token_v1";
+
+  function getToken() {
+    try { return sessionStorage.getItem(TOKEN_KEY) || ""; } catch { return ""; }
+  }
+  function setToken(v) {
+    try { sessionStorage.setItem(TOKEN_KEY, v); } catch {}
+  }
+  function clearToken() {
+    try { sessionStorage.removeItem(TOKEN_KEY); } catch {}
+  }
+
   // Minimal "persona" seed (we'll refine later)
   const SYSTEM_HINT =
     "You are Agent Alpha for DawgsHaus. You help users explore projects and answer technical questions. " +
@@ -111,6 +124,8 @@
       appendLine("  /status      Show session status", "meta");
       appendLine("  /clear       Clear screen (does not reset memory)", "meta");
       appendLine("  /reset       Reset session memory + screen", "meta");
+      appendLine("  /unlock <token>  Unlock for this session", "meta");
+      appendLine("  /lock            Clear token + lock session", "meta");
       return true;
     }
 
@@ -124,6 +139,24 @@
       appendLine(`Status @ ${nowStamp()}`, "meta");
       appendLine(`  Session messages stored: ${count}`, "meta");
       appendLine(`  Worker endpoint: ${WORKER_ENDPOINT ? WORKER_ENDPOINT : "(mock mode)"}`, "meta");
+      return true;
+    }
+
+    if (cmd.startsWith("/unlock")) {
+      // Preserve original casing/spaces in token by using cmdRaw (not cmd)
+      const token = cmdRaw.split(" ").slice(1).join(" ").trim();
+      if (!token) {
+        appendLine("Usage: /unlock <token>", "error");
+        return true;
+      }
+      setToken(token);
+      appendLine("Session unlocked. Token stored for this browser session.", "meta");
+      return true;
+    }
+
+    if (cmd === "/lock") {
+      clearToken();
+      appendLine("Session locked. Token cleared.", "meta");
       return true;
     }
 
@@ -163,9 +196,18 @@
       return `MOCK: Received "${userText}".\n\nNext: deploy the Cloudflare Worker and set WORKER_ENDPOINT in /ai/agent.js.`;
     }
 
+    // If endpoint is live, require unlock token
+    const t = getToken();
+    if (!t) {
+      return "LOCKED: Run /unlock <token> to enable Agent Alpha for this session.";
+    }
+
     const res = await fetch(WORKER_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "X-Agent-Token": getToken()
+      },
       body: JSON.stringify(payload)
     });
 
