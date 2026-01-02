@@ -1,0 +1,18 @@
+name = "agent-alpha"
+main = "index.js"
+compatibility_date = "2026-01-01"
+
+# Use the same Cloudflare account/zone you already used in the dashboard
+# (Wrangler figures this out after login)
+
+[vars]
+# NOTE: do NOT put secrets here. We will set secrets with wrangler commands.
+
+[durable_objects]
+bindings = [
+  { name = "RATE_LIMITER", class_name = "RateLimiter" }
+]
+
+[[migrations]]
+tag = "v1"
+new_classes = ["RateLimiter"]
