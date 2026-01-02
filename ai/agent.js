@@ -5,7 +5,7 @@
 
   // Replace this once your Cloudflare Worker is deployed:
   // Example: "https://agent-alpha.YOURNAME.workers.dev/api/agent"
- const WORKER_ENDPOINT = "https://agent-alpha.techdawgs.workers.dev/api/agent";
+  const WORKER_ENDPOINT = "https://api.dawgshaus.com/api/agent";
 
   // Session-only memory key
   const SESSION_KEY = "dawgshaus_agent_alpha_session_v1";
